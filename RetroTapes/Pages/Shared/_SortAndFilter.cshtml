@@ -1,0 +1,24 @@
+@model RetroTapes.Pages.Shared.FilterCriteria
+
+@{
+    Layout = null;
+}
+
+<div>
+    <form method="get" asp-page="Movies">
+        <input type="text" name="SearchTerm" value="@Model.SearchTerm" placeholder="Search movies..." />
+        
+        <select name="SortBy">
+            <option value="Title" selected="@(Model.SortBy=="Title")">Title</option>
+            <option value="ReleaseDate" selected="@(Model.SortBy=="ReleaseDate")">Release Date</option>
+            <option value="Rating" selected="@(Model.SortBy=="Rating")">Rating</option>
+        </select>
+        
+        <select name="OrderBy">
+            <option value="Ascending" selected="@(Model.OrderBy=="Ascending")">Ascending</option>
+            <option value="Descending" selected="@(Model.OrderBy=="Descending")">Descending</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form> 
+</div>
