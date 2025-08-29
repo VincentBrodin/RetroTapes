@@ -1,0 +1,57 @@
+﻿@page
+@model RetroTapes.Pages.Movies.IndexModel
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1>Movies</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Release Year</th>
+            <th>Rental Rate</th>
+            <th>Length</th>
+            <th>Rating</th>
+            <th>Special Features</th>
+            <th>Langauge</th>
+
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Films)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.ReleaseYear</td>
+                <td>@item.RentalRate</td>
+                <td>@item.Length</td>
+                <td>@item.Rating</td>
+                <td>@item.SpecialFeatures</td>
+				<td>@item.Language.Name</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.FilmId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.FilmId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.FilmId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between">
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)" class="btn btn-secondary">« Previous</a>
+    }
+    <span>Sida @Model.PageIndex av @Model.TotalPages</span>
+    @if (Model.HasNextPage)
+    {
+        <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)" class="btn btn-secondary">Next »</a>
+    }
+</div>
