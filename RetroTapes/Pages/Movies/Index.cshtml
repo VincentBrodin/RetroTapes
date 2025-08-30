@@ -6,17 +6,16 @@
 
 <h1>Movies</h1>
 
+<a asp-page="./Create">Create New</a>
+
+
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Title</th>
-            <th>Description</th>
-            <th>Release Year</th>
             <th>Rental Rate</th>
             <th>Length</th>
-            <th>Rating</th>
-            <th>Special Features</th>
-            <th>Langauge</th>
+            <th>Language</th>
 
             <th></th>
 
@@ -27,12 +26,8 @@
         {
             <tr>
                 <td>@item.Title</td>
-                <td>@item.Description</td>
-                <td>@item.ReleaseYear</td>
                 <td>@item.RentalRate</td>
                 <td>@item.Length</td>
-                <td>@item.Rating</td>
-                <td>@item.SpecialFeatures</td>
 				<td>@item.Language.Name</td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.FilmId">Edit</a> |
@@ -49,7 +44,7 @@
     {
         <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)" class="btn btn-secondary">« Previous</a>
     }
-    <span>Sida @Model.PageIndex av @Model.TotalPages</span>
+    <span>Side @Model.PageIndex of @Model.TotalPages</span>
     @if (Model.HasNextPage)
     {
         <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)" class="btn btn-secondary">Next »</a>
