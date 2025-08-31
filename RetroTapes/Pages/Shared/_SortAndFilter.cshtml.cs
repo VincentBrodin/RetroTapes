@@ -24,11 +24,15 @@ public class FilterCriteria
             case "Title":
                 output = Desc() ? output.OrderByDescending(f => f.Title) : output.OrderBy(f => f.Title);
                 break;
-            case "ReleaseDate":
-                output = Desc() ? output.OrderByDescending(f => int.TryParse(f.ReleaseYear, out var year) ? year : 0) : output.OrderBy(f => int.TryParse(f.ReleaseYear, out var year) ? year : 0);
+            case "RentalRate":
+                output = Desc() ? output.OrderByDescending(f => f.RentalDuration) : output.OrderBy(f => f.RentalRate);
                 break;
-            case "Rating":
-                output = Desc() ? output.OrderByDescending(f => f.Rating) : output.OrderBy(f => f.Rating);
+            case "Length":
+                output = Desc() ? output.OrderByDescending(f => f.Length) : output.OrderBy(f => f.Length);
+                break;
+
+            case "Language":
+                output = Desc() ? output.OrderByDescending(f => f.Language) : output.OrderBy(f => f.Language);
                 break;
         }
         return output;
