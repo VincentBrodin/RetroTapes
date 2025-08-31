@@ -17,7 +17,7 @@ builder.Services.AddScoped<IRepository<City>, GenericRepository<City>>();
 builder.Services.AddScoped<IRepository<Country>, GenericRepository<Country>>();
 builder.Services.AddScoped<IRepository<Customer>, GenericRepository<Customer>>();
 builder.Services.AddScoped<IRepository<CustomerList>, GenericRepository<CustomerList>>();
-builder.Services.AddScoped<IRepository<Film>, GenericRepository<Film>>();
+builder.Services.AddScoped<IRepository<Film>, FilmRepository>();
 builder.Services.AddScoped<IRepository<FilmActor>, GenericRepository<FilmActor>>();
 builder.Services.AddScoped<IRepository<FilmCategory>, GenericRepository<FilmCategory>>();
 builder.Services.AddScoped<IRepository<FilmList>, GenericRepository<FilmList>>();
