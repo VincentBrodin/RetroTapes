@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RetroTapes.Data;
 using RetroTapes.Models;
 
 namespace RetroTapes.Pages.Movies
 {
     public class EditModel : PageModel
     {
-        private readonly RetroTapes.Models.SakilaContext _context;
+        private readonly SakilaContext _context;
 
-        public EditModel(RetroTapes.Models.SakilaContext context)
+        public EditModel(SakilaContext context)
         {
             _context = context;
         }
@@ -46,7 +47,9 @@ namespace RetroTapes.Pages.Movies
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+
+                Console.WriteLine($"Non valid state in edit movie");
+                // return Page();
             }
 
             _context.Attach(Film).State = EntityState.Modified;

@@ -1,0 +1,78 @@
+﻿body {
+    background-color: var(--beige);
+}
+
+section {
+    border: 1px solid var(--brown);
+    background-color: var(--light-beige);
+    border-radius: 15px;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.panel {
+    padding: 1rem;
+}
+
+.message {
+    padding: 1rem;
+}
+
+    .message .x-btn {
+        float: right;
+        border: none;
+    }
+
+    .message, .message .x-btn {
+        color: var(--black);
+    }
+
+.success, .success .x-btn {
+    border: 1px solid var(--blue);
+    background-color: var(--light-blue);
+}
+
+.neutral, .neutral .x-btn {
+    border: 1px solid var(--brown);
+    background-color: var(--light-brown);
+}
+
+.warning, .warning .x-btn {
+    border: 1px solid var(--bronze);
+    background-color: var(--light-bronze);
+}
+
+.error, .error .x-btn {
+    border: 1px solid var(--red);
+    background-color: var(--light-red);
+}
+
+.table {
+    border: 1px solid var(--brown);
+}
+
+@keyframes loading_animation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    height: 3em;
+    width: 3em;
+    margin: 1rem;
+    animation-name: loading_animation;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    border-radius: 5rem;
+    background-color: inherit;
+    border-top: 5px solid var(--light-bronze);
+    border-bottom: 5px solid var(--maroon);
+    border-left: 5px solid var(--maroon);
+    border-right: 5px solid var(--maroon);
+}

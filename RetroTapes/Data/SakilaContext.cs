@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using RetroTapes.Models;
 
-namespace RetroTapes.Models;
+namespace RetroTapes.Data;
 
 public partial class SakilaContext : DbContext
 {
