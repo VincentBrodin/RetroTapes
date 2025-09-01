@@ -5,8 +5,10 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>A VHS rental service.</p>
-    <p>An actor's first name: @Model.FirstName</p>
-    <p>An actor's last name: @Model.LastName</p>
+    <div class="row mb-4">
+        <div class="container-md">
+            <img class="img-logo" src="img/logo.png" />
+        </div>
+    </div>
+    <a asp-page="/Movies/Index" class="btn btn-primary">Browse movies</a>
 </div>
