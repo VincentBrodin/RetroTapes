@@ -1,25 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RetroTapes.Data;
+using RetroTapes.Models;
 
 namespace RetroTapes.Pages;
 
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-    private readonly SakilaContext _sakilaContext;
-    public string FirstName { get; set; } = "Default";
+    private readonly IRepository<Actor> _actorRepository;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
 
-    public IndexModel(ILogger<IndexModel> logger, SakilaContext sakilaContext)
+    public IndexModel(ILogger<IndexModel> logger, IRepository<Actor> actorRepository)
     {
         _logger = logger;
-        _sakilaContext = sakilaContext;
+        _actorRepository = actorRepository;
     }
 
     public void OnGet()
     {
-        Console.WriteLine("Writeline test");
-        FirstName = "Updated default";
-        FirstName = _sakilaContext.Actors.First().FirstName;
+        FirstName = _actorRepository.All().First().FirstName;
+        LastName = _actorRepository.All().First().LastName;
     }
 }
