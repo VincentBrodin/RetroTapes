@@ -47,7 +47,9 @@ namespace RetroTapes.Pages.Movies
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+
+                Console.WriteLine($"Non valid state in edit movie");
+                // return Page();
             }
 
             _context.Attach(Film).State = EntityState.Modified;
