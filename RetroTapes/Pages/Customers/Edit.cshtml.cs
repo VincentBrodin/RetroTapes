@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,48 +9,51 @@ namespace RetroTapes.Pages.Customers
 {
     public class EditModel : PageModel
     {
-        private readonly RetroTapes.Data.SakilaContext _context;
+        private readonly IRepository<Customer> _customerRepo;
+        private readonly IRepository<Address> _addressRepo;
+        private readonly IRepository<Store> _storeRepo;
 
-        public EditModel(RetroTapes.Data.SakilaContext context)
+        public EditModel(IRepository<Customer> customerRepo, IRepository<Address> addressRepo, IRepository<Store> storeRepo)
         {
-            _context = context;
+            _customerRepo = customerRepo;
+            _addressRepo = addressRepo;
+            _storeRepo = storeRepo;
         }
 
         [BindProperty]
-        public Customer Customer { get; set; } = default!;
+        public Customer Customer { get; set; } = new();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer =  await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = _customerRepo.Get(id ?? -1);
             if (customer == null)
             {
                 return NotFound();
             }
             Customer = customer;
-           ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId");
-           ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId");
+            ViewData["AddressId"] = new SelectList(_addressRepo.All(), "AddressId", "AddressId");
+            ViewData["StoreId"] = new SelectList(_storeRepo.All(), "StoreId", "StoreId");
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                Console.WriteLine($"Non valid state in edit customer");
+                // return Page();
             }
 
-            _context.Attach(Customer).State = EntityState.Modified;
+            _customerRepo.Update(Customer);
 
             try
             {
-                await _context.SaveChangesAsync();
+                _customerRepo.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,7 +72,7 @@ namespace RetroTapes.Pages.Customers
 
         private bool CustomerExists(int id)
         {
-            return _context.Customers.Any(e => e.CustomerId == id);
+            return _customerRepo.Get(id) != null;
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using RetroTapes.Data;
 using RetroTapes.Models;
 
@@ -12,20 +6,18 @@ namespace RetroTapes.Pages.Customers
 {
     public class IndexModel : PageModel
     {
-        private readonly RetroTapes.Data.SakilaContext _context;
+        private readonly IRepository<Customer> _customerRepo;
 
-        public IndexModel(RetroTapes.Data.SakilaContext context)
+        public IndexModel(IRepository<Customer> customerRepo)
         {
-            _context = context;
+            _customerRepo = customerRepo;
         }
 
-        public IList<Customer> Customer { get;set; } = default!;
+        public List<Customer> Customer { get;set; } = [];
 
-        public async Task OnGetAsync()
+        public void  OnGet()
         {
-            Customer = await _context.Customers
-                .Include(c => c.Address)
-                .Include(c => c.Store).ToListAsync();
+            Customer = _customerRepo.All().ToList();
         }
     }
 }

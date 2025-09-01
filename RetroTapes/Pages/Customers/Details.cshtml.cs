@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using RetroTapes.Data;
 using RetroTapes.Models;
 
@@ -12,23 +7,23 @@ namespace RetroTapes.Pages.Customers
 {
     public class DetailsModel : PageModel
     {
-        private readonly RetroTapes.Data.SakilaContext _context;
+        private readonly IRepository<Customer> _customerRepo;
 
-        public DetailsModel(RetroTapes.Data.SakilaContext context)
+        public DetailsModel(IRepository<Customer> customerRepo)
         {
-            _context = context;
+            _customerRepo = customerRepo;
         }
 
         public Customer Customer { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = _customerRepo.Get(id ?? -1);
 
             if (customer is not null)
             {
