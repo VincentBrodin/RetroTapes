@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RetroTapes.Data;
@@ -12,17 +8,21 @@ namespace RetroTapes.Pages.Customers
 {
     public class CreateModel : PageModel
     {
-        private readonly RetroTapes.Data.SakilaContext _context;
 
-        public CreateModel(RetroTapes.Data.SakilaContext context)
+        private readonly IRepository<Customer> _customerRepo;
+        private readonly IRepository<Address> _addressRepo;
+        private readonly IRepository<Store> _storeRepo;
+
+        public CreateModel(IRepository<Customer> customerRepo, IRepository<Address> addressRepo, IRepository<Store> storeRepo)
         {
-            _context = context;
+            _customerRepo = customerRepo;
+            _addressRepo = addressRepo;
+            _storeRepo = storeRepo;
         }
-
         public IActionResult OnGet()
         {
-        ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId");
-        ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId");
+            ViewData["AddressId"] = new SelectList(_addressRepo.All(), "AddressId", "AddressId");
+            ViewData["StoreId"] = new SelectList(_storeRepo.All(), "StoreId", "StoreId");
             return Page();
         }
 
@@ -30,15 +30,19 @@ namespace RetroTapes.Pages.Customers
         public Customer Customer { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                Console.WriteLine($"Non valid state in edit customer");
+                // return Page();
             }
 
-            _context.Customers.Add(Customer);
-            await _context.SaveChangesAsync();
+            Customer.CreateDate = DateTime.Now;
+            Customer.LastUpdate = DateTime.Now;
+
+            _customerRepo.Add(Customer);
+            _customerRepo.SaveChanges();
 
             return RedirectToPage("./Index");
         }
