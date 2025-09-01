@@ -4,12 +4,14 @@
     --gray: gray;
     --white: white;
     /* retro color scheme */
+    --blue: #4E8098;
     --maroon: #5E0B15;
     --red: #90323d;
     --beige: #D9CAB3;
     --bronze: #BC8034;
     --brown: #8C7A6B;
     /* retro color scheme - light variants */
+    --light-blue: #A4C2D0;
     --light-maroon: #A81425;
     --light-red: #BD4452;
     --light-beige: #E1D5C3;
