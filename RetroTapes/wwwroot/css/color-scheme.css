@@ -1,14 +1,18 @@
-﻿/*
-
-    RETRO COLOR SCHEME:
-
-    Maroon: #5E0B15 (lighter: #A81425)
-    Red: #90323d (lighter: #BD4452)
-    Beige: #D9CAB3 (lighter: #E1D5C3)
-    Bronze: #BC8034 (lighter: #D19B55)
-    Brown: #8C7A6B (lighter: #A39487)
-
-    Black
-    White
-
-*/
+﻿:root {
+    /* grayscale */
+    --black: black;
+    --gray: gray;
+    --white: white;
+    /* retro color scheme */
+    --maroon: #5E0B15;
+    --red: #90323d;
+    --beige: #D9CAB3;
+    --bronze: #BC8034;
+    --brown: #8C7A6B;
+    /* retro color scheme - light variants */
+    --light-maroon: #A81425;
+    --light-red: #BD4452;
+    --light-beige: #E1D5C3;
+    --light-bronze: #D19B55;
+    --light-brown: #A39487;
+}
