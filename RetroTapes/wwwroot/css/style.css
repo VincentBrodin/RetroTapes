@@ -46,3 +46,7 @@ section {
     border: 1px solid var(--red);
     background-color: var(--light-red);
 }
+
+.table {
+    border: 1px solid var(--brown);
+}
