@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RetroTapes.Models;
+using RetroTapes.Data;
 
 namespace RetroTapes.Pages;
 
