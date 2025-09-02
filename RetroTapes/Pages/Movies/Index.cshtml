@@ -8,9 +8,13 @@ ViewData["Title"] = "Movies";
 
 <h1>Movies</h1>
 
-<a asp-page="./Create">Create New</a>
+<div class="mb-3 d-flex align-items-center gap-2">
 
-@await Html.PartialAsync("_SortAndFilter", Model.Filter)
+    @await Html.PartialAsync("_SortAndFilter", Model.Filter)
+
+    <a asp-page="./Create" class="btn btn-sm btn-primary ms-auto">New Movie</a>
+
+</div>
 
 <table class="table table-striped">
   <thead>
@@ -33,9 +37,11 @@ ViewData["Title"] = "Movies";
       <td>@item.Length</td>
       <td>@item.Language.Name</td>
       <td>
-        <a asp-page="./Edit" asp-route-id="@item.FilmId">Edit</a> |
-        <a asp-page="./Details" asp-route-id="@item.FilmId">Details</a> |
-        <a asp-page="./Delete" asp-route-id="@item.FilmId">Delete</a>
+        <a asp-page="./Edit" asp-route-id="@item.FilmId" class="btn btn-sm btn-outline-primary">Edit</a>
+        <a asp-page="./Details" asp-route-id="@item.FilmId" class="btn btn-sm btn-outline-secondary">Details</a>
+        <a asp-page="./Delete" asp-route-id="@item.FilmId" class="btn btn-sm btn-outline-danger">Delete</a>
+                    <a asp-page="/Rentals/Create" class="btn btn-sm btn-primary" style="margin-left:50px">Rent</a>
+
       </td>
     </tr>
     }
