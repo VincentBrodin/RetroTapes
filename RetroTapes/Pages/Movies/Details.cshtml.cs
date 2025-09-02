@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using RetroTapes.Data;
 using RetroTapes.Models;
 
 namespace RetroTapes.Pages.Movies
 {
     public class DetailsModel : PageModel
     {
-        private readonly RetroTapes.Models.SakilaContext _context;
+        private readonly SakilaContext _context;
 
-        public DetailsModel(RetroTapes.Models.SakilaContext context)
+        public DetailsModel(SakilaContext context)
         {
             _context = context;
         }
