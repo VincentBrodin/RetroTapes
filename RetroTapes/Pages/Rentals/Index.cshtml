@@ -1,0 +1,91 @@
+﻿@page
+@model RetroTapes.Pages.Rentals.IndexModel
+@{
+	ViewData["Title"] = "Rentals";
+}
+
+<section>
+	<h1>Rentals</h1>
+	<div class="mb-3 d-flex align-items-center gap-2">
+		<form method="get" class="d-flex align-items-end gap-2 flex-wrap mb-0">
+			<div class="form-group">
+				<label for="search" class="form-label">Search (film or customer)</label>
+				<input id="search" name="Search" class="form-control" value="@Model.Search" />
+			</div>
+			<div class="form-check ms-2 mt-4">
+				<input class="form-check-input" type="checkbox" id="openOnly" name="OpenOnly" value="true" @(Model.OpenOnly ? "checked" : "") />
+				<label class="form-check-label" for="openOnly">Open only</label>
+			</div>
+			<button type="submit" class="btn btn-secondary mt-4">Filter</button>
+		</form>
+
+		<a asp-page="Create" class="btn btn-primary ms-auto">New Rental</a>
+	</div>
+
+	@if (TempData["StatusMessage"] is string msg)
+	{
+		<div class="alert alert-success">@msg</div>
+	}
+
+	<table class="table table-striped align-middle">
+		<thead>
+			<tr>
+				<th>Rented At</th>
+				<th>Returned At</th>
+				<th>Film</th>
+				<th>Customer</th>
+				<th>Staff</th>
+				<th class="text-end"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var r in Model.Rentals)
+			{
+				<tr>
+					<td>@r.RentalDate.ToLocalTime()</td>
+					<td>
+						@if (r.ReturnDate.HasValue)
+						{
+							@r.ReturnDate.Value.ToLocalTime()
+						}
+						else
+						{
+							<span class="badge bg-warning text-dark">Out</span>
+						}
+					</td>
+					<td>@r.Inventory?.Film?.Title</td>
+					<td>@($"{r.Customer?.FirstName} {r.Customer?.LastName}")</td>
+					<td>@($"{r.Staff?.FirstName} {r.Staff?.LastName}")</td>
+					<td class="text-end">
+						<a asp-page="Details" asp-route-id="@r.RentalId" class="btn btn-sm btn-outline-secondary">View</a>
+						<a asp-page="Edit" asp-route-id="@r.RentalId" class="btn btn-sm btn-outline-primary">Edit</a>
+						<a asp-page="Delete" asp-route-id="@r.RentalId" class="btn btn-sm btn-outline-danger">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<nav aria-label="pagination">
+		<ul class="pagination">
+			<li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+				<a class="page-link"
+				   asp-page="Index"
+				   asp-route-pageIndex="@(Model.PageIndex - 1)"
+				   asp-route-Search="@Model.Search"
+				   asp-route-OpenOnly="@Model.OpenOnly">Previous</a>
+			</li>
+			<li class="page-item disabled">
+				<span class="page-link">Page @Model.PageIndex of @Model.TotalPages</span>
+			</li>
+			<li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+				<a class="page-link"
+				   asp-page="Index"
+				   asp-route-pageIndex="@(Model.PageIndex + 1)"
+				   asp-route-Search="@Model.Search"
+				   asp-route-OpenOnly="@Model.OpenOnly">Next</a>
+			</li>
+		</ul>
+	</nav>
+</section>
+

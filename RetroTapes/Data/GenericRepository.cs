@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace RetroTapes.Data;
 
@@ -18,6 +19,11 @@ public class GenericRepository<T>(SakilaContext context) : IRepository<T> where 
         context.Add(entity);
     }
 
+    public async Task AddAsync(T entity)
+    {
+    await context.AddAsync(entity);
+    }
+
     /// <summary>
     /// Gets all the entities in the context for the given class
     /// </summary>
@@ -25,6 +31,11 @@ public class GenericRepository<T>(SakilaContext context) : IRepository<T> where 
     public IEnumerable<T> All()
     {
         return [.. context.Set<T>()];
+    }
+
+    public async Task<IEnumerable<T>> AllAsync()
+    {
+        return await context.Set<T>().ToListAsync();
     }
 
     /// <summary>
@@ -38,6 +49,12 @@ public class GenericRepository<T>(SakilaContext context) : IRepository<T> where 
         context.Remove(entity);
     }
 
+    public async Task DeleteAsync(int id)
+    {
+        var entity = await GetAsync(id) ?? throw new NullReferenceException("Entity is null");
+        context.Remove(entity);
+    }
+
     /// <summary>
     /// Runs the given predicate against the context with the set of type T
     /// </summary>
@@ -46,6 +63,11 @@ public class GenericRepository<T>(SakilaContext context) : IRepository<T> where 
     public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
     {
         return context.Set<T>().AsQueryable().Where(predicate);
+    }
+
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await context.Set<T>().AsQueryable().Where(predicate).ToListAsync();
     }
 
     /// <summary>
@@ -58,12 +80,22 @@ public class GenericRepository<T>(SakilaContext context) : IRepository<T> where 
         return context.Set<T>().Find(id);
     }
 
+    public async Task<T?> GetAsync(int id)
+    {
+        return await context.Set<T>().FindAsync(id);
+    }
+
     /// <summary>
     /// Saves all the changes done
     /// </summary>
     public void SaveChanges()
     {
         context.SaveChanges();
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await context.SaveChangesAsync();
     }
 
     /// <summary>
@@ -73,5 +105,11 @@ public class GenericRepository<T>(SakilaContext context) : IRepository<T> where 
     public void Update(T entity)
     {
         context.Update(entity);
+    }
+
+    public Task UpdateAsync(T entity)
+    {
+        context.Update(entity);
+        return Task.CompletedTask;
     }
 }
