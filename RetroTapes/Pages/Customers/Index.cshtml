@@ -2,19 +2,29 @@
 @model RetroTapes.Pages.Customers.IndexModel
 
 @{
-	ViewData["Title"] = "Index";
+	ViewData["Title"] = "Customers";
 }
 
 <section>
-	<h1>Index</h1>
-	<p>
-		<a asp-page="Create">Create New</a>
-	</p>
-	<table class="table table-striped">
+	<h1>Customers</h1>
+
+	<div class="mb-3 d-flex align-items-center gap-2">
+
+		@await Html.PartialAsync("_SortAndFilterCustomer", Model.Filter)
+
+		<a asp-page="./Create" class="btn btn-sm btn-primary ms-auto">New Customer</a>
+
+	</div>
+
+	<table class="table">
 		<thead>
 			<tr>
 				<th>
-					Name
+					First Name
+				</th>
+				<th>
+					Last Name
+
 				</th>
 				<th>
 					Email
@@ -23,7 +33,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var item in Model.Customer)
+			@foreach (var item in Model.customers)
 			{
 				<tr>
 					<td>
@@ -33,12 +43,41 @@
 						@Html.DisplayFor(modelItem => item.Email)
 					</td>
 					<td>
-						<a asp-page="./Edit" asp-route-id="@item.CustomerId">Edit</a> |
-						<a asp-page="./Details" asp-route-id="@item.CustomerId">Details</a> |
-						<a asp-page="./Delete" asp-route-id="@item.CustomerId">Delete</a>
+						<a asp-page="./Edit" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-primary">Edit</a>
+						<a asp-page="./Details" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-secondary">View</a>
+						<a asp-page="./Delete" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-danger">Delete</a>
 					</td>
 				</tr>
 			}
 		</tbody>
 	</table>
+
+	<div class="d-flex justify-content-between">
+		@if (Model.HasPreviousPage)
+		{
+			<a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-searchTerm="@Model.Filter.SearchTerm"
+			   asp-route-sortBy="@Model.Filter.SortBy" asp-route-orderBy="@Model.Filter.OrderBy" class="btn btn-secondary">
+				«
+				Previous
+			</a>
+		}
+		else
+		{
+			<a class="btn btn-secondary disabled">« Previous</a>
+		}
+		<span>Side @Model.PageIndex of @Model.TotalPages</span>
+		@if (Model.HasNextPage)
+		{
+			<a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-searchTerm="@Model.Filter.SearchTerm"
+			   asp-route-sortBy="@Model.Filter.SortBy" asp-route-orderBy="@Model.Filter.OrderBy" class="btn btn-secondary">
+				Next
+				»
+			</a>
+		}
+		else
+		{
+			<a class="btn btn-secondary disabled">Next »</a>
+		}
+	</div>
 </section>
+
