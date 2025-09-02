@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RetroTapes.Models;
+using RetroTapes.Data;
 
 namespace RetroTapes.Pages.Rentals
 {
