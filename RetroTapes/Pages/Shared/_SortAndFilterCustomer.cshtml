@@ -1,0 +1,17 @@
+﻿@model RetroTapes.Pages.Shared.FilterCriteriaCustomer
+<form method="get">
+  <input type="text" name="SearchTerm" value="@Model.SearchTerm" placeholder="Search customers..." />
+
+  <select name="SortBy">
+    <option value="FirstName" selected="@(Model.SortBy == "FirstName" ? "selected" : null)">First Name</option>
+    <option value="LastName"  selected="@(Model.SortBy == "LastName"  ? "selected" : null)">Last Name</option>
+    <option value="Email"     selected="@(Model.SortBy == "Email"     ? "selected" : null)">Email</option>
+  </select>
+
+  <select name="OrderBy">
+    <option value="Ascending"  selected="@(Model.OrderBy == "Ascending"  ? "selected" : null)">Ascending</option>
+    <option value="Descending" selected="@(Model.OrderBy == "Descending" ? "selected" : null)">Descending</option>
+  </select>
+
+  <button type="submit" class="btn btn-sm btn-primary ms-auto" style="margin-bottom: 10px;">Apply</button>
+</form>
