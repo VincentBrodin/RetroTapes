@@ -1,52 +1,65 @@
 ﻿@page
 @model RetroTapes.Pages.Movies.IndexModel
 @{
-    ViewData["Title"] = "Movies";
+ViewData["Title"] = "Movies";
 }
 
 <h1>Movies</h1>
 
 <a asp-page="./Create">Create New</a>
 
+@await Html.PartialAsync("_SortAndFilter", Model.Filter)
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Rental Rate</th>
-            <th>Length</th>
-            <th>Language</th>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Rental Rate</th>
+      <th>Length</th>
+      <th>Language</th>
 
-            <th></th>
+      <th></th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Films)
-        {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.RentalRate</td>
-                <td>@item.Length</td>
-				<td>@item.Language.Name</td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.FilmId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.FilmId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.FilmId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.Films)
+    {
+    <tr>
+      <td>@item.Title</td>
+      <td>@item.RentalRate</td>
+      <td>@item.Length</td>
+      <td>@item.Language.Name</td>
+      <td>
+        <a asp-page="./Edit" asp-route-id="@item.FilmId">Edit</a> |
+        <a asp-page="./Details" asp-route-id="@item.FilmId">Details</a> |
+        <a asp-page="./Delete" asp-route-id="@item.FilmId">Delete</a>
+      </td>
+    </tr>
+    }
+  </tbody>
 </table>
 
 <div class="d-flex justify-content-between">
-    @if (Model.HasPreviousPage)
-    {
-        <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)" class="btn btn-secondary">« Previous</a>
-    }
-    <span>Side @Model.PageIndex of @Model.TotalPages</span>
-    @if (Model.HasNextPage)
-    {
-        <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)" class="btn btn-secondary">Next »</a>
-    }
+  @if (Model.HasPreviousPage)
+  {
+  <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-searchTerm="@Model.Filter.SearchTerm"
+    asp-route-sortBy="@Model.Filter.SortBy" asp-route-orderBy="@Model.Filter.OrderBy" class="btn btn-secondary">«
+    Previous</a>
+  }
+  else
+  {
+  <a class="btn btn-secondary disabled">« Previous</a>
+  }
+  <span>Side @Model.PageIndex of @Model.TotalPages</span>
+  @if (Model.HasNextPage)
+  {
+  <a asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-searchTerm="@Model.Filter.SearchTerm"
+    asp-route-sortBy="@Model.Filter.SortBy" asp-route-orderBy="@Model.Filter.OrderBy" class="btn btn-secondary">Next
+    »</a>
+  }
+  else
+  {
+  <a class="btn btn-secondary disabled">Next »</a>
+  }
 </div>

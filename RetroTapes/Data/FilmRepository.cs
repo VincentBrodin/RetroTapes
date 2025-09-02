@@ -1,0 +1,44 @@
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using RetroTapes.Models;
+
+namespace RetroTapes.Data;
+
+public class FilmRepository(SakilaContext context) : IRepository<Film>
+{
+    public void Add(Film entity)
+{
+    context.Add(entity);
+}
+
+public void Update(Film entity)
+{
+    context.Update(entity);
+}
+
+public Film? Get(int id)
+{
+    return context.Films.Include(f => f.Language).FirstOrDefault(c => c.FilmId == id);
+}
+
+public void Delete(int id)
+{
+    var entity = Get(id) ?? throw new NullReferenceException($"No film with id {id}!");
+    context.Remove(entity);
+}
+
+public IEnumerable<Film> All()
+{
+    return context.Films.Include(f => f.Language);
+}
+
+public IEnumerable<Film> Find(Expression<Func<Film, bool>> predicate)
+{
+    return context.Films.Include(f => f.Language).Where(predicate);
+}
+
+public void SaveChanges()
+{
+    context.SaveChanges();
+}
+}
