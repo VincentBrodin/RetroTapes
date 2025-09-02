@@ -1,0 +1,56 @@
+﻿@page
+@model RetroTapes.Pages.Rentals.CreateModel
+@{
+    ViewData["Title"] = "New Rental";
+}
+
+<h1>New Rental</h1>
+
+<form method="post" class="card">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="Rental.CustomerId" class="form-label">Customer</label>
+                <select asp-for="Rental.CustomerId" class="form-select" asp-items="Model.Customers">
+                    <option value="">-- select customer --</option>
+                </select>
+                <span asp-validation-for="Rental.CustomerId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Rental.InventoryId" class="form-label">Copy (Film)</label>
+                <select asp-for="Rental.InventoryId" class="form-select" asp-items="Model.Inventories">
+                    <option value="">-- select copy --</option>
+                </select>
+                <span asp-validation-for="Rental.InventoryId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Rental.StaffId" class="form-label">Staff</label>
+                <select asp-for="Rental.StaffId" class="form-select" asp-items="Model.Staffs">
+                    <option value="">-- select staff --</option>
+                </select>
+                <span asp-validation-for="Rental.StaffId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Rental.RentalDate" class="form-label">Rented At (UTC)</label>
+                <input asp-for="Rental.RentalDate" class="form-control" />
+                <span asp-validation-for="Rental.RentalDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Rental.ReturnDate" class="form-label">Returned At (UTC)</label>
+                <input asp-for="Rental.ReturnDate" class="form-control" />
+                <span asp-validation-for="Rental.ReturnDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
