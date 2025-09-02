@@ -19,6 +19,8 @@ public class CustomerRepository(SakilaContext context) : IRepository<Customer>
     public void Delete(int id)
     {
         var entity = Get(id) ?? throw new NullReferenceException($"No customer with id {id}!");
+        context.RemoveRange(context.Rentals.Where(r => r.CustomerId == entity.CustomerId));
+        context.RemoveRange(context.Payments.Where(p => p.CustomerId == entity.CustomerId));
         context.Remove(entity);
     }
 
