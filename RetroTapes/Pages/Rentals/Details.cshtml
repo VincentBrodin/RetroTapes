@@ -1,35 +1,36 @@
 ﻿@page "{id:int}"
 @model RetroTapes.Pages.Rentals.DetailsModel
 @{
-    ViewData["Title"] = "Rental Details";
+	ViewData["Title"] = "Rental Details";
 }
 
-<h1>Rental</h1>
+<section>
+	<h1>Rental</h1>
+	<div class="card mb-3">
+		<div class="card-body">
+			<dl class="row">
+				<dt class="col-sm-3">Film</dt>
+				<dd class="col-sm-9">@Model.Rental.Inventory?.Film?.Title</dd>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-3">Film</dt>
-            <dd class="col-sm-9">@Model.Rental.Inventory?.Film?.Title</dd>
+				<dt class="col-sm-3">Customer</dt>
+				<dd class="col-sm-9">@Model.Rental.Customer?.FirstName @Model.Rental.Customer?.LastName</dd>
 
-            <dt class="col-sm-3">Customer</dt>
-            <dd class="col-sm-9">@Model.Rental.Customer?.FirstName @Model.Rental.Customer?.LastName</dd>
+				<dt class="col-sm-3">Staff</dt>
+				<dd class="col-sm-9">@Model.Rental.Staff?.FirstName @Model.Rental.Staff?.LastName</dd>
 
-            <dt class="col-sm-3">Staff</dt>
-            <dd class="col-sm-9">@Model.Rental.Staff?.FirstName @Model.Rental.Staff?.LastName</dd>
+				<dt class="col-sm-3">Rented At</dt>
+				<dd class="col-sm-9">@Model.Rental.RentalDate.ToLocalTime()</dd>
 
-            <dt class="col-sm-3">Rented At</dt>
-            <dd class="col-sm-9">@Model.Rental.RentalDate.ToLocalTime()</dd>
-
-            <dt class="col-sm-3">Returned At</dt>
-            <dd class="col-sm-9">
-                @(Model.Rental.ReturnDate.HasValue? Model.Rental.ReturnDate.Value.ToLocalTime().ToString() : "Not returned")
-            </dd>
-        </dl>
-        <div class="d-flex gap-2">
-            <a class="btn btn-outline-primary" asp-page="Edit" asp-route-id="@Model.Rental.RentalId">Edit</a>
-            <a class="btn btn-outline-danger" asp-page="Delete" asp-route-id="@Model.Rental.RentalId">Delete</a>
-            <a class="btn btn-secondary ms-auto" asp-page="Index">Back</a>
-        </div>
-    </div>
-</div>
+				<dt class="col-sm-3">Returned At</dt>
+				<dd class="col-sm-9">
+					@(Model.Rental.ReturnDate.HasValue? Model.Rental.ReturnDate.Value.ToLocalTime().ToString() : "Not returned")
+				</dd>
+			</dl>
+			<div class="d-flex gap-2">
+				<a class="btn btn-outline-primary" asp-page="Edit" asp-route-id="@Model.Rental.RentalId">Edit</a>
+				<a class="btn btn-outline-danger" asp-page="Delete" asp-route-id="@Model.Rental.RentalId">Delete</a>
+				<a class="btn btn-secondary ms-auto" asp-page="Index">Back</a>
+			</div>
+		</div>
+	</div>
+</section>

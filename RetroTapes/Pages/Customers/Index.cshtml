@@ -2,77 +2,79 @@
 @model RetroTapes.Pages.Customers.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].Active)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].LastUpdate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer[0].Store)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Customer) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.AddressId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Store.StoreId)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.CustomerId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.CustomerId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<section>
+	<h1>Index</h1>
+	<p>
+		<a asp-page="Create">Create New</a>
+	</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].FirstName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].LastName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Email)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Active)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].CreateDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].LastUpdate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Address)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Store)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Customer)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.FirstName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.LastName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Email)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Active)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.CreateDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.LastUpdate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Address.AddressId)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Store.StoreId)
+					</td>
+					<td>
+						<a asp-page="./Edit" asp-route-id="@item.CustomerId">Edit</a> |
+						<a asp-page="./Details" asp-route-id="@item.CustomerId">Details</a> |
+						<a asp-page="./Delete" asp-route-id="@item.CustomerId">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>
