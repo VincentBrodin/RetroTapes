@@ -1,33 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RetroTapes.Models;
-using RetroTapes.Data;
 using System.Linq.Expressions;
 
 namespace RetroTapes.Data
 {
-    public class RentalRepository : IRepository<Rental>
+    public class RentalRepository(SakilaContext context) : IRepository<Rental>
     {
-        private readonly SakilaContext _context;
-        private readonly DbSet<Rental> _set;
-
-        public RentalRepository(SakilaContext context)
-        {
-            _context = context;
-            _set = _context.Set<Rental>();
-        }
 
         // Return all rentals with required navigation loaded for UI lists
         public IEnumerable<Rental> All()
         {
-            return _set
+            return context.Rentals
                 .Include(r => r.Inventory).ThenInclude(i => i.Film)
                 .Include(r => r.Customer)
-                .Include(r => r.Staff)
-                .AsNoTracking()
-                .ToList();
+                .Include(r => r.Staff);
         }
 
         // Apply predicate over the materialized list (IEnumerable<T> pattern in your repo)
@@ -38,19 +24,18 @@ namespace RetroTapes.Data
 
         public IEnumerable<Rental> Find(Expression<Func<Rental, bool>> predicate)
         {
-            return _set
+            return context.Rentals
                 .Include(r => r.Inventory).ThenInclude(i => i.Film)
                 .Include(r => r.Customer)
                 .Include(r => r.Staff)
                 .AsNoTracking()
-                .Where(predicate)
-                .ToList();
+                .Where(predicate);
         }
 
         // Get single rental with navigations
         public Rental? Get(int id)
         {
-            return _set
+            return context.Rentals
                 .Include(r => r.Inventory).ThenInclude(i => i.Film)
                 .Include(r => r.Customer)
                 .Include(r => r.Staff)
@@ -59,27 +44,75 @@ namespace RetroTapes.Data
 
         public void Add(Rental entity)
         {
-            _set.Add(entity);
+            context.Add(entity);
         }
 
         public void Update(Rental entity)
         {
-            _set.Update(entity);
+            context.Update(entity);
         }
 
         public void Delete(int id)
         {
-            var entity = _set.Find(id);
-            if (entity != null)
-            {
-                _set.Remove(entity);
-            }
+            var entity = Get(id) ?? throw new NullReferenceException($"No rental with id {id}!");
+            context.Remove(entity);
+
         }
 
         public void SaveChanges()
         {
-            _context.SaveChanges();
+            context.SaveChanges();
+        }
+
+        public async Task AddAsync(Rental entity)
+        {
+            await context.AddAsync(entity);
+        }
+
+        public Task UpdateAsync(Rental entity)
+        {
+            context.Update(entity);
+            return Task.CompletedTask;
+        }
+
+        public async Task<Rental?> GetAsync(int id)
+        {
+            return await context.Rentals
+                .Include(r => r.Inventory).ThenInclude(i => i.Film)
+                .Include(r => r.Customer)
+                .Include(r => r.Staff)
+                .FirstOrDefaultAsync(r => r.RentalId == id);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await GetAsync(id) ?? throw new NullReferenceException($"No entity with id {id}!");
+            context.Remove(entity);
+        }
+
+        public async Task<IEnumerable<Rental>> AllAsync()
+        {
+
+            return await context.Rentals
+                .Include(r => r.Inventory).ThenInclude(i => i.Film)
+                .Include(r => r.Customer)
+                .Include(r => r.Staff).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Rental>> FindAsync(Expression<Func<Rental, bool>> predicate)
+        {
+
+            return await context.Rentals
+                .Include(r => r.Inventory).ThenInclude(i => i.Film)
+                .Include(r => r.Customer)
+                .Include(r => r.Staff)
+                .Where(predicate)
+                .ToListAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await context.SaveChangesAsync();
         }
     }
 }
-
