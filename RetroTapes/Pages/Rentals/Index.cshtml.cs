@@ -8,9 +8,9 @@ namespace RetroTapes.Pages.Rentals
 {
     public class IndexModel : PageModel
     {
-        private readonly IRepository<Rental> _rentalRepo;
+        private readonly RentalRepository _rentalRepo;
 
-        public IndexModel(IRepository<Rental> rentalRepo)
+        public IndexModel(RentalRepository rentalRepo)
         {
             _rentalRepo = rentalRepo;
         }
@@ -30,19 +30,18 @@ namespace RetroTapes.Pages.Rentals
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPages;
 
-        public void OnGet(int pageIndex = 1)
+        public async Task OnGetAsync(int pageIndex = 1)
         {
             PageIndex = pageIndex;
 
-            // NOTE: RentalRepository.All() already includes Inventory->Film, Customer, Staff and uses AsNoTracking()
-            var query = _rentalRepo.All();
+            var query = _rentalRepo.Query();
 
             if (!string.IsNullOrWhiteSpace(Search))
             {
                 var s = Search.Trim();
                 query = query.Where(r =>
-                    (r.Inventory?.Film?.Title?.Contains(s) ?? false) ||
-                    ($"{r.Customer?.FirstName} {r.Customer?.LastName}".Contains(s)));
+                    r.Inventory.Film.Title.Contains(s) ||
+                    (r.Customer.FirstName + " " + r.Customer.LastName).Contains(s));
             }
 
             if (OpenOnly)
@@ -50,14 +49,15 @@ namespace RetroTapes.Pages.Rentals
                 query = query.Where(r => r.ReturnDate == null);
             }
 
-            var totalCount = query.Count();
+            var totalCount = await query.CountAsync();
             TotalPages = (int)Math.Ceiling(totalCount / (double)PageSize);
 
-            Rentals = query
+            Rentals = await query
                 .OrderByDescending(r => r.RentalDate)
                 .Skip((PageIndex - 1) * PageSize)
                 .Take(PageSize)
-                .ToList();
+                .ToListAsync();
         }
     }
+
 }

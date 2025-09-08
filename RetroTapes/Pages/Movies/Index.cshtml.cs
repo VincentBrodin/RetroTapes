@@ -16,9 +16,8 @@ namespace RetroTapes.Pages.Movies
             _filmRepo = filmRepo;
         }
 
-
         [BindProperty(SupportsGet = true)]
-        public FilterCriteria Filter { get; set; } = new();
+        public FilterCriteria Filter { get; set; } = new FilterCriteria();
 
         public List<Film> Films { get; set; } = new();
 

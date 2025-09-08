@@ -5,12 +5,14 @@
 }
 
 <section>
+
 	<h1>Rentals</h1>
+
 	<div class="mb-3 d-flex align-items-center gap-2">
+
 		<form method="get" class="d-flex align-items-end gap-2 flex-wrap mb-0">
 			<div class="form-group">
-				<label for="search" class="form-label">Search (film or customer)</label>
-				<input id="search" name="Search" class="form-control" value="@Model.Search" />
+				<input id="search" name="Search" class="form-control" value="@Model.Search" placeholder="Search (film or customer)" />
 			</div>
 			<div class="form-check ms-2 mt-4">
 				<input class="form-check-input" type="checkbox" id="openOnly" name="OpenOnly" value="true" @(Model.OpenOnly ? "checked" : "") />
@@ -19,7 +21,7 @@
 			<button type="submit" class="btn btn-secondary mt-4">Filter</button>
 		</form>
 
-		<a asp-page="Create" class="btn btn-primary ms-auto">New Rental</a>
+		<a asp-page="Create" class="btn btn-sm btn-primary ms-auto">New Rental</a>
 	</div>
 
 	@if (TempData["StatusMessage"] is string msg)
