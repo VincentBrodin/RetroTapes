@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RetroTapes.Data;
 using RetroTapes.Models;
 using System.Linq.Expressions;
+
+namespace RetroTapes.Data;
 
 public class RentalRepository(SakilaContext context) : IRepository<Rental>
 {
