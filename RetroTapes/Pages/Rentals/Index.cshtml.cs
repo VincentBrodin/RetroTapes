@@ -19,7 +19,7 @@ namespace RetroTapes.Pages.Rentals
         public string? Search { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public bool OpenOnly { get; set; }
+        public bool ShowActiveRentals { get; set; }
 
         public List<Rental> Rentals { get; set; } = new();
 
@@ -45,7 +45,7 @@ namespace RetroTapes.Pages.Rentals
                     ($"{r.Customer?.FirstName} {r.Customer?.LastName}".Contains(s)));
             }
 
-            if (OpenOnly)
+            if (ShowActiveRentals)
             {
                 query = query.Where(r => r.ReturnDate == null);
             }

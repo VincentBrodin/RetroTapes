@@ -13,8 +13,8 @@
             <input id="search" name="Search" class="form-control" value="@Model.Search" />
         </div>
         <div class="form-check ms-2 mt-4">
-            <input class="form-check-input" type="checkbox" id="openOnly" name="OpenOnly" value="true" @(Model.OpenOnly ? "checked" : "") />
-            <label class="form-check-label" for="openOnly">Open only</label>
+            <input class="form-check-input" type="checkbox" id="openOnly" name="ShowActiveRentals" value="true" @(Model.ShowActiveRentals ? "checked" : "") />
+            <label class="form-check-label" for="ShowActiveRentals">Active Rentals</label>
         </div>
         <button type="submit" class="btn btn-secondary mt-4">Filter</button>
     </form>
@@ -73,7 +73,7 @@
                asp-page="Index"
                asp-route-pageIndex="@(Model.PageIndex - 1)"
                asp-route-Search="@Model.Search"
-               asp-route-OpenOnly="@Model.OpenOnly">Previous</a>
+               asp-route-OpenOnly="@Model.ShowActiveRentals">Previous</a>
         </li>
         <li class="page-item disabled">
             <span class="page-link">Page @Model.PageIndex of @Model.TotalPages</span>
@@ -83,7 +83,7 @@
                asp-page="Index"
                asp-route-pageIndex="@(Model.PageIndex + 1)"
                asp-route-Search="@Model.Search"
-               asp-route-OpenOnly="@Model.OpenOnly">Next</a>
+               asp-route-OpenOnly="@Model.ShowActiveRentals">Next</a>
         </li>
     </ul>
 </nav>
