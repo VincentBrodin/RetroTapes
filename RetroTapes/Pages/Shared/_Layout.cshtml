@@ -1,64 +1,105 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@ViewData["Title"] - RetroTapes</title>
-  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/RetroTapes.styles.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/css/color-scheme.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - RetroTapes</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/RetroTapes.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/color-scheme.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	
+	<style>
+		/* تحسينات بسيطة للنافبار */
+		.navbar {
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+			transition: all 0.3s ease;
+		}
+		
+		.navbar-brand {
+			font-weight: bold;
+			color: #007bff !important;
+			transition: color 0.3s ease;
+		}
+		
+		.navbar-brand:hover {
+			color: #0056b3 !important;
+		}
+		
+		.nav-link {
+			transition: all 0.3s ease;
+			border-radius: 5px;
+			margin: 0 5px;
+			font-weight: 500;
+		}
+		
+		.nav-link:hover {
+			background-color: rgba(0,123,255,0.1);
+			transform: translateY(-1px);
+		}
+		
+		.nav-icon {
+			margin-right: 8px;
+			width: 16px;
+		}
+	</style>
 </head>
-
 <body>
-  <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+			<div class="container">
+				<a class="navbar-brand" asp-area="" asp-page="/Index">RetroTapes</a>
 
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">RetroTapes</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/Movies/Index">Movies</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/Rentals/Index">Rentals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Customers/Index">Customers</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <div class="container">
-    <main role="main" class="pb-3">
-      @RenderBody()
-    </main>
-  </div>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-  <footer class="border-top footer text-muted">
-    <div class="container">
-      &copy; 2025 - RetroTapes - <a asp-area="" asp-page="/Privacy">Privacy</a>
-    </div>
-  </footer>
-
-  <script src="~/lib/jquery/dist/jquery.min.js"></script>
-  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="~/js/site.js" asp-append-version="true"></script>
-
-  @await RenderSectionAsync("Scripts", required: false)
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-page="/Movies/Index">
+								<i class="fas fa-film nav-icon"></i>Movies
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-page="/Rentals/Index">
+								<i class="fas fa-shopping-cart nav-icon"></i>Rentals
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-page="/Customers/Index">
+								<i class="fas fa-users nav-icon"></i>Customers
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-page="/About">
+								<i class="fas fa-info-circle nav-icon"></i>About RetroTapes
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+	
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; 2025 - RetroTapes - Grupp C
+		</div>
+	</footer>
+	
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>

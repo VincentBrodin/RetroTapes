@@ -18,9 +18,10 @@ public class IndexModel : PageModel
         _actorRepository = actorRepository;
     }
 
-    public void OnGet()
+    public async Task OnGetAsync()
     {
-        FirstName = _actorRepository.All().First().FirstName;
-        LastName = _actorRepository.All().First().LastName;
+        var actor = await _actorRepository.AllAsync();
+        FirstName = actor.First().FirstName;
+        LastName = actor.First().LastName;
     }
 }
