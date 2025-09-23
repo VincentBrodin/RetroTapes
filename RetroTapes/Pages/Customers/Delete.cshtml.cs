@@ -47,7 +47,8 @@ namespace RetroTapes.Pages.Customers
             if (customer != null)
             {
                 Customer = customer;
-                _customerRepo.Delete(id ?? -1);
+                customer.Active = "0";
+                _customerRepo.Update(customer);
                 _customerRepo.SaveChanges();
             }
 
