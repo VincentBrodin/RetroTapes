@@ -40,22 +40,39 @@
 				</div>
 				<div class="form-group">
 
-					<label asp-for="Customer.AddressId" class="control-label"></label>
+					<label asp-for="Customer.AddressId" class="control-label">Address</label>
 					<select asp-for="Customer.AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
 					<span asp-validation-for="Customer.AddressId" class="text-danger"></span>
 				</div>
 				<div class="form-group">
+					<label asp-for="Customer.Active" class="control-label">Status</label>
+					<select asp-for="Customer.Active" class="form-control">
+						<option value="1">Active</option>
+						<option value="0">Inactive</option>
+					</select>
+					<span asp-validation-for="Customer.Active" class="text-danger"></span>
+				</div>
+
+				<div class="form-group">
+
+					<label asp-for="Customer.CreateDate" class="control-label">Date of Create</label>
+					<input asp-for="Customer.CreateDate" class="form-control" />
+					<span asp-validation-for="Customer.CreateDate" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+
+					<label asp-for="Customer.LastUpdate" class="control-label">Last Update</label>
+					<input asp-for="Customer.LastUpdate" class="form-control" />
+					<span asp-validation-for="Customer.LastUpdate" class="text-danger"></span>
+				</div>
+				<div class="form-group mt-3">
+					<a asp-page="./Index" class="btn btn-secondary">« Back</a>
 					<input type="submit" value="Save" class="btn btn-primary" />
 				</div>
 			</form>
 		</div>
 	</div>
 </section>
-
-<div>
-	<a asp-page="./Index">Back to List</a>
-</div>
-
 
 @section Scripts {
 	@{
