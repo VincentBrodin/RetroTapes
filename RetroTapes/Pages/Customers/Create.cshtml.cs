@@ -21,8 +21,8 @@ namespace RetroTapes.Pages.Customers
         }
         public IActionResult OnGet()
         {
-            ViewData["AddressId"] = new SelectList(_addressRepo.All(), "AddressId", "AddressId");
-            ViewData["StoreId"] = new SelectList(_storeRepo.All(), "StoreId", "StoreId");
+            ViewData["AddressId"] = new SelectList(_addressRepo.All(), "AddressId", "Address1");
+            ViewData["StoreId"] = new SelectList(_storeRepo.All(), "StoreId", "Address.Address1");
             return Page();
         }
 
