@@ -35,9 +35,13 @@ namespace RetroTapes.Pages.Customers
             {
                 return NotFound();
             }
+            
             Customer = customer;
             ViewData["AddressId"] = new SelectList(await _addressRepo.AllAsync(), "AddressId", "Address1");
-            ViewData["StoreId"] = new SelectList(await _storeRepo.AllAsync(), "StoreId", "StoreId");
+
+            var stores = await _storeRepo.AllAsync();
+            ViewData["StoreId"] = new SelectList(stores,"StoreId", "Address.Address1");
+
             return Page();
         }
 

@@ -6,8 +6,8 @@
 }
 
 <section>
-	<h1>Edit</h1>
-	<h4>Customer</h4>
+	<h1>Editing Customer</h1>
+
 	<hr />
 	<div class="row">
 		<div class="col-md-4">
@@ -16,19 +16,19 @@
 				<input type="hidden" asp-for="Customer.CustomerId" />
 				<div class="form-group">
 
-					<label asp-for="Customer.StoreId" class="control-label"></label>
+					<label asp-for="Customer.StoreId" class="control-label">Store</label>
 					<select asp-for="Customer.StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
 					<span asp-validation-for="Customer.StoreId" class="text-danger"></span>
 				</div>
 				<div class="form-group">
 
-					<label asp-for="Customer.FirstName" class="control-label"></label>
+					<label asp-for="Customer.FirstName" class="control-label">First Name</label>
 					<input asp-for="Customer.FirstName" class="form-control" />
 					<span asp-validation-for="Customer.FirstName" class="text-danger"></span>
 				</div>
 				<div class="form-group">
 
-					<label asp-for="Customer.LastName" class="control-label"></label>
+					<label asp-for="Customer.LastName" class="control-label">Last Name</label>
 					<input asp-for="Customer.LastName" class="form-control" />
 					<span asp-validation-for="Customer.LastName" class="text-danger"></span>
 				</div>
@@ -43,24 +43,6 @@
 					<label asp-for="Customer.AddressId" class="control-label"></label>
 					<select asp-for="Customer.AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
 					<span asp-validation-for="Customer.AddressId" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-
-					<label asp-for="Customer.Active" class="control-label"></label>
-					<input asp-for="Customer.Active" class="form-control" />
-					<span asp-validation-for="Customer.Active" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-
-					<label asp-for="Customer.CreateDate" class="control-label"></label>
-					<input asp-for="Customer.CreateDate" class="form-control" />
-					<span asp-validation-for="Customer.CreateDate" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-
-					<label asp-for="Customer.LastUpdate" class="control-label"></label>
-					<input asp-for="Customer.LastUpdate" class="form-control" />
-					<span asp-validation-for="Customer.LastUpdate" class="text-danger"></span>
 				</div>
 				<div class="form-group">
 					<input type="submit" value="Save" class="btn btn-primary" />

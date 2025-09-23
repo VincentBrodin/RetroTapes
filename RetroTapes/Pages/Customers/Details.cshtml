@@ -6,23 +6,18 @@
 }
 
 <section>
-	<h1>Details</h1>
+	<h1>Customer's Details</h1>
 	<div>
-		<h4>Customer</h4>
 		<hr />
 		<dl class="row">
 			<dt class="col-sm-2">
-				@Html.DisplayNameFor(model => model.Customer.FirstName)
+				Name
 			</dt>
 			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.Customer.FirstName)
+				@Html.DisplayFor(model => model.Customer.FirstName) @Html.DisplayFor(model => model.Customer.LastName)
+
 			</dd>
-			<dt class="col-sm-2">
-				@Html.DisplayNameFor(model => model.Customer.LastName)
-			</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.Customer.LastName)
-			</dd>
+
 			<dt class="col-sm-2">
 				@Html.DisplayNameFor(model => model.Customer.Email)
 			</dt>
@@ -30,19 +25,26 @@
 				@Html.DisplayFor(model => model.Customer.Email)
 			</dd>
 			<dt class="col-sm-2">
-				@Html.DisplayNameFor(model => model.Customer.Active)
+				Status
 			</dt>
 			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.Customer.Active)
+				@if (Model.Customer.Active == "1")
+				{
+					<span class="badge bg-success">Active</span>
+				}
+				else
+				{
+					<span class="badge bg-danger">Inactive</span>
+				}
 			</dd>
 			<dt class="col-sm-2">
-				@Html.DisplayNameFor(model => model.Customer.CreateDate)
+				Create Date
 			</dt>
 			<dd class="col-sm-10">
 				@Html.DisplayFor(model => model.Customer.CreateDate)
 			</dd>
 			<dt class="col-sm-2">
-				@Html.DisplayNameFor(model => model.Customer.LastUpdate)
+				Last Update
 			</dt>
 			<dd class="col-sm-10">
 				@Html.DisplayFor(model => model.Customer.LastUpdate)
