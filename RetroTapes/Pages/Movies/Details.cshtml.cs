@@ -28,7 +28,10 @@ namespace RetroTapes.Pages.Movies
                 return NotFound();
             }
 
-            var film = await _context.Films.FirstOrDefaultAsync(m => m.FilmId == id);
+            var film = await _context.Films
+                .Include(f => f.Language)
+                .Include(f => f.OriginalLanguage)
+                .FirstOrDefaultAsync(m => m.FilmId == id);
 
             if (film is not null)
             {
