@@ -25,10 +25,10 @@ namespace RetroTapes.Pages.Customers
         public int TotalPages { get; set; }
         private const int PageSize = 10;
 
-        public void OnGet(int pageIndex = 1)
+        public async Task OnGetAsync(int pageIndex = 1)
         {
             PageIndex = pageIndex;
-            var allCustomers = Filter.Run(_customerRepo.All());
+            var allCustomers = Filter.Run(await _customerRepo.AllAsync());
             TotalPages = (int)Math.Ceiling(allCustomers.Count() / (double)PageSize);
             customers = allCustomers.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
         }

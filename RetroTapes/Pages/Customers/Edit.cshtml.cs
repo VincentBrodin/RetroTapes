@@ -23,7 +23,7 @@ namespace RetroTapes.Pages.Customers
         [BindProperty]
         public Customer Customer { get; set; } = new();
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
@@ -36,12 +36,12 @@ namespace RetroTapes.Pages.Customers
                 return NotFound();
             }
             Customer = customer;
-            ViewData["AddressId"] = new SelectList(_addressRepo.All(), "AddressId", "AddressId");
-            ViewData["StoreId"] = new SelectList(_storeRepo.All(), "StoreId", "StoreId");
+            ViewData["AddressId"] = new SelectList(await _addressRepo.AllAsync(), "AddressId", "Address1");
+            ViewData["StoreId"] = new SelectList(await _storeRepo.AllAsync(), "StoreId", "StoreId");
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -49,11 +49,11 @@ namespace RetroTapes.Pages.Customers
                 // return Page();
             }
 
-            _customerRepo.Update(Customer);
+            await _customerRepo.UpdateAsync(Customer);
 
             try
             {
-                _customerRepo.SaveChanges();
+                await _customerRepo.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -72,7 +72,7 @@ namespace RetroTapes.Pages.Customers
 
         private bool CustomerExists(int id)
         {
-            return _customerRepo.Get(id) != null;
+            return _customerRepo.Find(c => c.CustomerId == id).FirstOrDefault() != null;
         }
     }
 }
