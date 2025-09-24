@@ -10,9 +10,11 @@ namespace RetroTapes.Pages.Rentals
     public class EditModel : PageModel
     {
         private readonly SakilaContext _context;
+        private readonly IRepository<Rental> _rentalRepo;
 
-        public EditModel(SakilaContext context)
+        public EditModel(IRepository<Rental> rentalRepo, SakilaContext context)
         {
+            _rentalRepo = rentalRepo;
             _context = context;
         }
 
@@ -25,11 +27,7 @@ namespace RetroTapes.Pages.Rentals
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var rental = await _context.Rentals
-                .Include(r => r.Inventory).ThenInclude(i => i.Film)
-                .Include(r => r.Customer)
-                .Include(r => r.Staff)
-                .FirstOrDefaultAsync(r => r.RentalId == id);
+            var rental = await _rentalRepo.GetAsync(id);
 
             if (rental == null) return NotFound();
 
@@ -50,8 +48,8 @@ namespace RetroTapes.Pages.Rentals
 
             try
             {
-                _context.Update(Rental);
-                await _context.SaveChangesAsync();
+                _rentalRepo.Update(Rental);
+                await _rentalRepo.SaveChangesAsync();
                 TempData["StatusMessage"] = "Rental updated.";
                 return RedirectToPage("Details", new { id = Rental.RentalId });
             }

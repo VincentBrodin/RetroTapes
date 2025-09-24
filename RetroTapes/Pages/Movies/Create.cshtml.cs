@@ -12,17 +12,20 @@ namespace RetroTapes.Pages.Movies
 {
     public class CreateModel : PageModel
     {
-        private readonly SakilaContext _context;
+        private readonly IRepository<Film> _filmRepo;
+        private readonly IRepository<Language> _languageRepo;
 
-        public CreateModel(SakilaContext context)
+        public CreateModel(IRepository<Film> filmRepo, IRepository<Language> languageRepo)
         {
-            _context = context;
+            _filmRepo = filmRepo;
+            _languageRepo = languageRepo;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-        ViewData["LanguageId"] = new SelectList(_context.Languages, "LanguageId", "LanguageId");
-        ViewData["OriginalLanguageId"] = new SelectList(_context.Languages, "LanguageId", "LanguageId");
+            var languages = await _languageRepo.AllAsync();
+            ViewData["LanguageId"] = new SelectList(languages, "LanguageId", "Name");
+            ViewData["OriginalLanguageId"] = new SelectList(languages, "LanguageId", "Name");
             return Page();
         }
 
@@ -37,8 +40,8 @@ namespace RetroTapes.Pages.Movies
                 return Page();
             }
 
-            _context.Films.Add(Film);
-            await _context.SaveChangesAsync();
+            await _filmRepo.AddAsync(Film);
+            await _filmRepo.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

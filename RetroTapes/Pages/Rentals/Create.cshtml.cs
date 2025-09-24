@@ -83,7 +83,6 @@ namespace RetroTapes.Pages.Rentals
                 return;
             }
 
-            // Ensure the selected copy isn't already out
             var activeLoanExists = await _context.Rentals
                 .AsNoTracking()
                 .AnyAsync(r => r.InventoryId == Rental.InventoryId && r.ReturnDate == null);

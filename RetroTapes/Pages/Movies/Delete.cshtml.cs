@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using RetroTapes.Data;
 using RetroTapes.Models;
 
@@ -12,11 +7,11 @@ namespace RetroTapes.Pages.Movies
 {
     public class DeleteModel : PageModel
     {
-        private readonly SakilaContext _context;
+        private readonly IRepository<Film> _filmRepo;
 
-        public DeleteModel(SakilaContext context)
+        public DeleteModel(IRepository<Film> filmRepo)
         {
-            _context = context;
+            _filmRepo = filmRepo;
         }
 
         [BindProperty]
@@ -29,7 +24,7 @@ namespace RetroTapes.Pages.Movies
                 return NotFound();
             }
 
-            var film = await _context.Films.FirstOrDefaultAsync(m => m.FilmId == id);
+            var film = await _filmRepo.GetAsync(id ?? -1);
 
             if (film is not null)
             {
@@ -48,12 +43,14 @@ namespace RetroTapes.Pages.Movies
                 return NotFound();
             }
 
-            var film = await _context.Films.FindAsync(id);
-            if (film != null)
+            try
             {
-                Film = film;
-                _context.Films.Remove(Film);
-                await _context.SaveChangesAsync();
+                await _filmRepo.DeleteAsync(id ?? -1);
+                await _filmRepo.SaveChangesAsync();
+            }
+            catch
+            {
+                return NotFound();
             }
 
             return RedirectToPage("./Index");
