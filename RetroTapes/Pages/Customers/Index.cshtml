@@ -16,19 +16,19 @@
 
 	</div>
 
-	<table class="table">
+	<table class="table table-striped align-middle">
 		<thead>
 			<tr>
 				<th>
-					First Name
-				</th>
-				<th>
-					Last Name
-
+					Name
 				</th>
 				<th>
 					Email
 				</th>
+				<th>
+					Status
+				</th>
+				<th></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -43,10 +43,30 @@
 						@Html.DisplayFor(modelItem => item.Email)
 					</td>
 					<td>
+						@if (item.Active == "1")
+						{
+							<span class="badge bg-success">Active</span>
+						}
+						else
+						{
+							<span class="badge bg-danger">Inactive</span>
+						}
+					</td>
+					<td>
 						<a asp-page="./Edit" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-primary">Edit</a>
 						<a asp-page="./Details" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-secondary">View</a>
-						<a asp-page="./Delete" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-danger">Delete</a>
+						<!-- <a asp-page="./Delete" asp-route-id="@item.CustomerId" class="btn btn-sm btn-outline-danger">Delete</a> -->
+						
 					</td>
+					<td>
+						<form method="post" asp-page-handler="ToggleActive" asp-route-id="@item.CustomerId">
+							<button type="submit" class="btn btn-sm @(item.Active == "1" ? "btn-outline-danger" : "btn-outline-success")">
+								@(item.Active == "1" ? "Deactivate" : "Activate")
+							</button>
+
+						</form>
+					</td>
+
 				</tr>
 			}
 		</tbody>
@@ -80,4 +100,3 @@
 		}
 	</div>
 </section>
-
