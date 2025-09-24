@@ -38,15 +38,17 @@ namespace RetroTapes.Pages.Rentals
 
             if (!string.IsNullOrWhiteSpace(Search))
             {
-                var s = Search.Trim().ToLower();
+                var term = $"%{Search.Trim()}%";
                 query = query.Where(r =>
 
-                    (r.Inventory != null && r.Inventory.Film != null && r.Inventory.Film.Title.ToLower().Contains(s)) ||
-                    (
-                    (r.Customer != null) &&
-                    ($"{r.Customer.FirstName}{r.Customer.LastName}".Contains(s))
-                    )
-                    );
+                (r.Inventory != null &&
+                r.Inventory.Film != null &&
+                EF.Functions.Like(r.Inventory.Film.Title, term))
+                ||
+                (r.Customer != null &&
+                EF.Functions.Like(
+                    (r.Customer.FirstName ?? "") + " " + (r.Customer.LastName ?? ""), term))
+                );
             }
 
             if (ShowActiveRentals)
