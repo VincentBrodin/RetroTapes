@@ -1,0 +1,23 @@
+@model List<RetroTapes.Models.Staff>
+  <select id="staffSelect" class="staff form-select w-auto">
+    @foreach(var staff in Model) {
+    <option value="@staff.StaffId">
+      <span>
+        @staff.FirstName
+      </span>
+      <span>
+        @staff.LastName
+      </span>
+    </option>
+    }
+  </select>
+
+
+  <script>
+    document.getElementById("staffSelect").addEventListener("change", function () {
+      const selectedValue = this.value;
+      console.log("Selected staffId:", selectedValue);
+      localStorage.setItem("user", selectedValue)
+      updateStaff();
+    });
+  </script>

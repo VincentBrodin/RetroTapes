@@ -31,7 +31,7 @@
 
                 <div class="col-md-6">
                     <label asp-for="Rental.StaffId" class="form-label">Staff</label>
-                    <select asp-for="Rental.StaffId" class="form-select" asp-items="Model.Staffs">
+                    <select asp-for="Rental.StaffId" class="form-select staff" asp-items="Model.Staffs" disabled>
                         <option value="">-- select staff --</option>
                     </select>
                     <span asp-validation-for="Rental.StaffId" class="text-danger"></span>
