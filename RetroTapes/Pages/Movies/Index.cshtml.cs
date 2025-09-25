@@ -16,9 +16,8 @@ namespace RetroTapes.Pages.Movies
             _filmRepo = filmRepo;
         }
 
-
         [BindProperty(SupportsGet = true)]
-        public FilterCriteria Filter { get; set; } = new();
+        public FilterCriteria Filter { get; set; } = new FilterCriteria();
 
         public List<Film> Films { get; set; } = new();
 
@@ -26,10 +25,10 @@ namespace RetroTapes.Pages.Movies
         public int TotalPages { get; set; }
         private const int PageSize = 10;
 
-        public void OnGet(int pageIndex = 1)
+        public async Task OnGetAsync(int pageIndex = 1)
         {
             PageIndex = pageIndex;
-            var allFilms = Filter.Run(_filmRepo.All());
+            var allFilms = Filter.Run(await _filmRepo.AllAsync());
             TotalPages = (int)Math.Ceiling(allFilms.Count() / (double)PageSize);
             Films = allFilms.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
         }

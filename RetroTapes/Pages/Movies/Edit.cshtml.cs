@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using RetroTapes.Data;
 using RetroTapes.Models;
@@ -13,11 +10,13 @@ namespace RetroTapes.Pages.Movies
 {
     public class EditModel : PageModel
     {
-        private readonly SakilaContext _context;
+        private readonly IRepository<Film> _filmRepo;
+        private readonly IRepository<Language> _languageRepo;
 
-        public EditModel(SakilaContext context)
+        public EditModel(IRepository<Film> filmRepo, IRepository<Language> langaugeRepo)
         {
-            _context = context;
+            _filmRepo = filmRepo;
+            _languageRepo = langaugeRepo;
         }
 
         [BindProperty]
@@ -30,14 +29,17 @@ namespace RetroTapes.Pages.Movies
                 return NotFound();
             }
 
-            var film =  await _context.Films.FirstOrDefaultAsync(m => m.FilmId == id);
+
+            var films = await _filmRepo.FindAsync(f => f.FilmId == id);
+            var film = films.FirstOrDefault();
             if (film == null)
             {
                 return NotFound();
             }
             Film = film;
-           ViewData["LanguageId"] = new SelectList(_context.Languages, "LanguageId", "LanguageId");
-           ViewData["OriginalLanguageId"] = new SelectList(_context.Languages, "LanguageId", "LanguageId");
+            var languages = await _languageRepo.AllAsync();
+            ViewData["LanguageId"] = new SelectList(languages, "LanguageId", "Name");
+            ViewData["OriginalLanguageId"] = new SelectList(languages, "LanguageId", "Name");
             return Page();
         }
 
@@ -52,11 +54,11 @@ namespace RetroTapes.Pages.Movies
                 // return Page();
             }
 
-            _context.Attach(Film).State = EntityState.Modified;
+            await _filmRepo.UpdateAsync(Film);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _filmRepo.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -75,7 +77,8 @@ namespace RetroTapes.Pages.Movies
 
         private bool FilmExists(int id)
         {
-            return _context.Films.Any(e => e.FilmId == id);
+            var film = _filmRepo.Find(f => f.FilmId == id).FirstOrDefault();
+            return film != null;
         }
     }
 }
