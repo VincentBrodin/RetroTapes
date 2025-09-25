@@ -12,11 +12,11 @@ namespace RetroTapes.Pages.Movies
 {
     public class DetailsModel : PageModel
     {
-        private readonly SakilaContext _context;
+        private readonly IRepository<Film> _filmRepo;
 
-        public DetailsModel(SakilaContext context)
+        public DetailsModel(SakilaContext context, IRepository<Film> filmRepo)
         {
-            _context = context;
+            _filmRepo = filmRepo;
         }
 
         public Film Film { get; set; } = default!;
@@ -28,19 +28,15 @@ namespace RetroTapes.Pages.Movies
                 return NotFound();
             }
 
-            var film = await _context.Films
-                .Include(f => f.Language)
-                .Include(f => f.OriginalLanguage)
-                .FirstOrDefaultAsync(m => m.FilmId == id);
+            Film? film = await _filmRepo.GetAsync((int)id);
 
-            if (film is not null)
+            if (film == null)
             {
-                Film = film;
-
-                return Page();
+                return NotFound();
             }
 
-            return NotFound();
+            Film = film;
+            return Page();
         }
     }
 }
