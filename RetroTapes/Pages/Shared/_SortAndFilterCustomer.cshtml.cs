@@ -18,7 +18,6 @@ namespace RetroTapes.Pages.Shared
 
         public IEnumerable<Customer> Run(IEnumerable<Customer> customers)
         {
-            // فلترة
             var output = customers.Where(c =>
                 string.IsNullOrEmpty(SearchTerm) ||
                 c.CustomerId.ToString().Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase) ||
@@ -27,7 +26,6 @@ namespace RetroTapes.Pages.Shared
                 (c.Email?.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false)
             );
 
-            // فرز
             switch (SortBy)
             {
                 case "FirstName":
