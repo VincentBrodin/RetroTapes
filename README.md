@@ -20,16 +20,18 @@ dotnet restore
 
 - **Razor**: Används för att bygga användargränssnittet
 - **Entity Framework (EF)**: Används för att generera modeller och hantera dataåtkomst från databasen
+- **Data Access Layer (DAL)**: Abstraherar och hanterar kommunikationen mellan `EF` och `Razor`, vilket ger en tydligare separation mellan lager
 - **Bootstrap**: Används för layout och styling av applikationen
 
 
 ### Arkitektur
 
-Projektet följer en klassisk MVC-struktur (Model–View–Controller) med tydlig separation mellan logik, datahantering och presentation.
+Projektet följer en klassisk `MVC`-struktur (Model–View–Controller) men har även utökats med en `DAL` för att förbättra struktur och underhållbarhet.
 
-- **Model**: Datamodeller för filmer, kunder, uthyrningar m.m. (genererade från Sakila-databasen).
-- **View**: Razor-sidor för att visa listor, detaljer och historik.
-- **Controller**: Logik för att hantera hyror, sökningar och filtrering.
+- **Model**: Datamodeller som representerar tabeller i Sakila-databasen (film, customer, rental m.m.).
+- **DAL**: Sköter dataåtkomst och logik kring databasanrop. Detta gör applikationen mer modulär och minskar beroendet mellan EF och Razor.
+- **View**: Razor-sidor för att presentera data och erbjuda användarvänligt gränssnitt.
+- **Controller**: Anropar DAL för att hämta eller uppdatera data och styr applikationens flöden.
 
 
 ### Användarhantering
