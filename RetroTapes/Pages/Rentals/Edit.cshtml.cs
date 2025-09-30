@@ -10,10 +10,12 @@ namespace RetroTapes.Pages.Rentals
     public class EditModel : PageModel
     {
         private readonly IRepository<Rental> _rentalRepo;
+        private readonly SakilaContext _context;
 
-        public EditModel(IRepository<Rental> rentalRepo)
+        public EditModel(IRepository<Rental> rentalRepo, SakilaContext sakilaContext)
         {
             _rentalRepo = rentalRepo;
+            _context = sakilaContext;
         }
 
         [BindProperty]
