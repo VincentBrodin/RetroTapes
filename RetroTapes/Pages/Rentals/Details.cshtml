@@ -5,8 +5,10 @@
 }
 
 <section>
-	<h1>Rental</h1>
-	<div class="card mb-3">
+	<h1>Details</h1>
+
+	<hr />
+	<div>
 		<div class="card-body">
 			<dl class="row">
 				<dt class="col-sm-3">Film</dt>
@@ -28,7 +30,7 @@
 			</dl>
 			<div class="d-flex gap-2">
 				<a class="btn btn-outline-primary" asp-page="Edit" asp-route-id="@Model.Rental.RentalId">Edit</a>
-				<a class="btn btn-outline-danger" asp-page="Delete" asp-route-id="@Model.Rental.RentalId">Delete</a>
+				<!-- <a class="btn btn-outline-danger" asp-page="Delete" asp-route-id="@Model.Rental.RentalId">Delete</a>-->
 				<a class="btn btn-secondary ms-auto" asp-page="Index">Back</a>
 			</div>
 		</div>
