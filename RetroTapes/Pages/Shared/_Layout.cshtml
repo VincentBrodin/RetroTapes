@@ -81,7 +81,15 @@
 							</a>
 						</li>
 					</ul>
+
 					@await Component.InvokeAsync("UserDropdown")
+
+                    <!-- Dark mode toggle switch -->
+					<div class="form-check form-switch ms-3">
+						<input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+						<label class="form-check-label" for="darkModeSwitch"> Dark mode </label>
+					</div>
+
 				</div>
 			</div>
 		</nav>
@@ -103,6 +111,30 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+		  const body = document.body;
+		  const sw = document.getElementById("darkModeSwitch");
+
+		  // Restore saved preference
+		  if (localStorage.getItem("theme") === "dark") {
+			body.classList.add("dark-mode");
+			sw.checked = true;
+		  }
+
+		  sw.addEventListener("change", () => {
+			if (sw.checked) {
+			  body.classList.add("dark-mode");
+			  localStorage.setItem("theme", "dark");
+			} else {
+			  body.classList.remove("dark-mode");
+			  localStorage.setItem("theme", "light");
+			}
+		  });
+		});
+	</script>
+
 </body>
 
 </html>
