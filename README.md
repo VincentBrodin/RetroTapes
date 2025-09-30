@@ -1,51 +1,75 @@
 # RetroTapes
-RetroTapes är en intern uthyrningstjänst för VHS-filmer där personal kan:
 
-- Lista, söka och filtrera filmer att hyra  
-- Se aktiva uthyrningar  
-- Se historik över tidigare uthyrningar  
+## Syfte
+Syftet med RetroTapes är att utveckla ett internt system för hantering av uthyrning av VHS-filmer.
+Systemet ska stödja personalen i deras dagliga arbete genom att tillhandahålla funktioner för att söka,
+filtrera och administrera filmer,
+samt följa upp aktiva uthyrningar och tidigare historik.
 
-Projektet är byggt och underhålls av ett team av .NET-utvecklingsstudenter från YH Akademin i Sverige.
+## Mål
 
-## Installation
-```bash
-git clone https://github.com/VincentBrodin/RetroTapes.git
-cd RetroTapes
-dotnet restore
-```
+- Tillhandahålla ett användarvänligt gränssnitt där personalen enkelt kan:    
+  -   Lista, söka och filtrera filmer  
+  -   Se aktiva uthyrningar  
+  -   Få överblick över uthyrningshistorik  
+-   Implementera en strukturerad och modulär arkitektur som är lätt att underhålla och vidareutveckla.  
+-   Använda etablerade ramverk och verktyg inom .NET-miljön för att säkerställa kvalitet och stabilitet.  
+      
+    
 
-## Struktur
+## Avgränsningar
+-   Systemet är ett internt verktyg och kommer inte att ha traditionell användarregistrering eller inloggning.  
+-   Istället finns en dropdown-meny där personalen väljer vilken medarbetare som är aktiv.  
+-   Systemet är i nuläget inte tänkt att vara publikt tillgängligt för kunder.  
+-   Funktioner som avancerad administration (t.ex. fakturering, automatiska påminnelser) ingår inte i denna version.  
+      
+    
 
-### Stack
+## Tekniska val
+-  **Språk och ramverk**: .NET (C#)  
+-  **Frontend**: Razor Pages för att bygga användargränssnittet  
+-  **Stilmall och layout**: Bootstrap för responsiv design och färdiga UI-komponenter  
+-  **Databashantering**: Entity Framework (EF) för att generera datamodeller och kommunicera med databasen  
+-  **Data Access Layer (DAL)**: Infört som ett separat lager för att abstrahera dataåtkomst och minska kopplingen mellan EF och Razor  
+-  **Databas**: Sakila - en exempeldatabas med realistisk struktur för filmbutik (film, customer, rental, staff, inventory m.m.)  
+      
+    
 
-- **Razor**: Används för att bygga användargränssnittet
-- **Entity Framework (EF)**: Används för att generera modeller och hantera dataåtkomst från databasen
-- **Data Access Layer (DAL)**: Abstraherar och hanterar kommunikationen mellan `EF` och `Razor`, vilket ger en tydligare separation mellan lager
-- **Bootstrap**: Används för layout och styling av applikationen
+## Arkitektur
 
+RetroTapes följer en lagerbaserad arkitektur med tydlig separation mellan presentation, logik och datahantering.
 
-### Arkitektur
+- **Presentation (Razor Views)**: Användargränssnittet som personalen interagerar med.  
+- **Controller**: Hanterar logik, tar emot input från användaren och anropar DAL.  
+- **DAL (Data Access Layer)**: Ansvarar för dataåtkomst, affärslogik kopplad till databasanrop och abstraktion mot EF.  
+- **Entity Framework (EF)**: ORM-verktyg som mappas mot Sakila-databasen.  
+- **Databas (Sakila)**: Hanterar uthyrningsinformation, kunder, filmer och personal.
+    
 
-Projektet följer en klassisk `MVC`-struktur (Model–View–Controller) men har även utökats med en `DAL` för att förbättra struktur och underhållbarhet.
+## Hosting
+Eftersom RetroTapes är ett internt system och inte är avsett att användas av kunder externt,
+är den bästa lösningen att hosta applikationen lokalt i organisationens nätverk. Detta ger flera fördelar:
 
-- **Model**: Datamodeller som representerar tabeller i Sakila-databasen (film, customer, rental m.m.).
-- **DAL**: Sköter dataåtkomst och logik kring databasanrop. Detta gör applikationen mer modulär och minskar beroendet mellan EF och Razor.
-- **View**: Razor-sidor för att presentera data och erbjuda användarvänligt gränssnitt.
-- **Controller**: Anropar DAL för att hämta eller uppdatera data och styr applikationens flöden.
+- **Enkel åtkomst för personalen**: systemet kan köras direkt från interna servrar eller en utvecklingsdator.  
+- **Låg komplexitet**:  ingen extern hosting eller molntjänst behövs i nuläget, vilket minskar både kostnader och tekniska beroenden.  
+- **Datasäkerhet**: all information lagras inom organisationens nätverk och lämnar inte interna miljön.  
 
+För framtida versioner kan man överväga att hosta systemet i Azure App Service eller annan molnplattform om behovet uppstår att skala upp,
+tillgängliggöra systemet utanför det interna nätverket, eller dra nytta av DevOps-verktyg för CI/CD.
 
-### Användarhantering
+  
+  
 
-Eftersom systemet är internt finns ingen traditionell inloggning.
-I stället använder personalen en dropdown-meny för att välja vilken administratör eller medarbetare som är aktiv.
-Detta förenklar användarflödet och undviker behovet av konton och lösenord.
+## Användarflöde
+1.  Personal väljer sin roll via dropdown-menyn.  
+2.  Filmlistor kan listas, filtreras eller sökas fram.  
+3.  När en uthyrning registreras kopplas den till vald kund och film.  
+4.  Systemet uppdaterar databasen och visar aktiv uthyrning.  
+5.  Historik kan granskas för att se tidigare hyror.  
 
-### Databas
-RetroTapes använder den välkända Sakila-databasen, som innehåller realistisk struktur för en filmbutik:
-
-- **film**: information om filmer (titel, beskrivning, längd, kategori m.m.)
-- **actor**: skådespelare kopplade till filmer
-- **customer**: kunder som hyr filmer
-- **rental**: uthyrningar (koppling mellan kund, film och datum)
-- **staff**: personal som hanterar uthyrningarna
-- **inventory**: lagerposter som kopplar filmer till butiker
+## Framtida utveckling
+-   Förbättrade sök och filterfunktioner (t.ex. baserade på skådespelare, kategori eller språk).  
+-   Statistik och rapportmodul (mest hyrda filmer, populära kategorier).  
+-   Utökat administrationsstöd för kundinformation.  
+-   Vidareutveckling av DAL för mer avancerad affärslogik.  
+-   Möjlighet till integration med externa system (t.ex. fakturering eller e-postnotifieringar).
