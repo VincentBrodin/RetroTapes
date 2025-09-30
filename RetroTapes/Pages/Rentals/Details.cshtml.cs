@@ -8,25 +8,21 @@ namespace RetroTapes.Pages.Rentals
 {
     public class DetailsModel : PageModel
     {
-        private readonly SakilaContext _context;
+        private readonly IRepository<Rental> _rentalRepo;
 
-        public DetailsModel(SakilaContext context)
+        public DetailsModel(SakilaContext context, IRepository<Rental> rentalRepo)
         {
-            _context = context;
+            _rentalRepo = rentalRepo;
         }
 
         public Rental Rental { get; private set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var rental = await _context.Rentals
-                .Include(r => r.Inventory).ThenInclude(i => i.Film)
-                .Include(r => r.Customer)
-                .Include(r => r.Staff)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.RentalId == id);
+            Rental? rental = await _rentalRepo.GetAsync(id);
 
-            if (rental == null) return NotFound();
+            if (rental == null)
+                return NotFound();
 
             Rental = rental;
             return Page();

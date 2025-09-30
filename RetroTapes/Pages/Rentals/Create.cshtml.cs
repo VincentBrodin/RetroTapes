@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RetroTapes.Models;
 using RetroTapes.Data;
+using System.Text.Json;
 
 namespace RetroTapes.Pages.Rentals
 {
@@ -17,26 +18,31 @@ namespace RetroTapes.Pages.Rentals
         }
 
         [BindProperty]
-        public Rental Rental { get; set; } = new Rental { RentalDate = DateTime.UtcNow };
+        public Rental Rental { get; set; } = new Rental { RentalDate = DateTime.UtcNow, ReturnDate = null };
+        public int SelectedId { get; set; }
 
         public SelectList Customers { get; private set; } = default!;
         public SelectList Inventories { get; private set; } = default!;
         public SelectList Staffs { get; private set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id)
         {
+            SelectedId = id ?? 0;
             await LoadSelectListsAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await ValidateAvailabilityAsync();
+            // await ValidateAvailabilityAsync();
+            // if (!ModelState.IsValid)
+            // {
+            //     await LoadSelectListsAsync();
+            //     return Page();
+            // }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadSelectListsAsync();
-                return Page();
-            }
+            Console.WriteLine(JsonSerializer.Serialize(Rental));
+
+            Rental.LastUpdate = DateTime.UtcNow;
 
             _context.Rentals.Add(Rental);
             await _context.SaveChangesAsync();
@@ -53,16 +59,18 @@ namespace RetroTapes.Pages.Rentals
                 .Select(c => new { c.CustomerId, Name = c.FirstName + " " + c.LastName })
                 .ToListAsync();
 
-            var inventories = await _context.Inventories
+            var inventories = _context.Inventories
                 .AsNoTracking()
                 .Include(i => i.Film)
                 .Include(i => i.Store)
+                .ToList()
+                .Where(i => SelectedId == 0 || i.FilmId == SelectedId)
+                .Where(i => !i.Rentals.Any(r => r.ReturnDate == null))
                 .Select(i => new
                 {
                     i.InventoryId,
                     Label = i.Film!.Title + " (Store " + i.StoreId + ")"
-                })
-                .ToListAsync();
+                });
 
             var staff = await _context.Staff
                 .AsNoTracking()
@@ -83,11 +91,11 @@ namespace RetroTapes.Pages.Rentals
                 return;
             }
 
-            var activeLoanExists = await _context.Rentals
+            var freeCopies = await _context.Rentals
                 .AsNoTracking()
-                .AnyAsync(r => r.InventoryId == Rental.InventoryId && r.ReturnDate == null);
+                .AnyAsync(r => r.InventoryId == Rental.InventoryId && r.ReturnDate != null && r.ReturnDate < DateTime.UtcNow);
 
-            if (activeLoanExists)
+            if (!freeCopies)
             {
                 ModelState.AddModelError("Rental.InventoryId", "This copy is already rented out.");
             }

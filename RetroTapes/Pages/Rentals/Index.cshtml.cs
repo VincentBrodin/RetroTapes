@@ -8,11 +8,11 @@ namespace RetroTapes.Pages.Rentals
 {
     public class IndexModel : PageModel
     {
-        private readonly RentalRepository _rentalRepo;
+        private readonly IRepository<Rental> _rentalRepository;
 
-        public IndexModel(RentalRepository rentalRepo)
+        public IndexModel(IRepository<Rental> rentalRepository)
         {
-            _rentalRepo = rentalRepo;
+            _rentalRepository = rentalRepository;
         }
 
         [BindProperty(SupportsGet = true)]
@@ -34,19 +34,21 @@ namespace RetroTapes.Pages.Rentals
         {
             PageIndex = pageIndex;
 
-            var query = _rentalRepo.Query();
+            var query = await _rentalRepository.AllAsync();
 
             if (!string.IsNullOrWhiteSpace(Search))
             {
-                var s = Search.Trim().ToLower();
+                var term = $"%{Search.Trim()}%";
                 query = query.Where(r =>
 
-                    (r.Inventory != null && r.Inventory.Film != null && r.Inventory.Film.Title.ToLower().Contains(s)) ||
-                    (
-                    (r.Customer != null) &&
-                    ($"{r.Customer.FirstName}{r.Customer.LastName}".Contains(s))
-                    )
-                    );
+                (r.Inventory != null &&
+                r.Inventory.Film != null &&
+                EF.Functions.Like(r.Inventory.Film.Title, term))
+                ||
+                (r.Customer != null &&
+                EF.Functions.Like(
+                    (r.Customer.FirstName ?? "") + " " + (r.Customer.LastName ?? ""), term))
+                );
             }
 
             if (ShowActiveRentals)
@@ -54,14 +56,14 @@ namespace RetroTapes.Pages.Rentals
                 query = query.Where(r => r.ReturnDate == null);
             }
 
-            var totalCount = await query.CountAsync();
+            int totalCount = query.Count();
             TotalPages = (int)Math.Ceiling(totalCount / (double)PageSize);
 
-            Rentals = await query
+            Rentals = query
                 .OrderByDescending(r => r.RentalDate)
                 .Skip((PageIndex - 1) * PageSize)
                 .Take(PageSize)
-                .ToListAsync();
+                .ToList();
         }
     }
 

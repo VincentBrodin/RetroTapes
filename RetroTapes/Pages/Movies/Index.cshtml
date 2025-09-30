@@ -40,8 +40,7 @@ ViewData["Title"] = "Movies";
         <a asp-page="./Edit" asp-route-id="@item.FilmId" class="btn btn-sm btn-outline-primary">Edit</a>
         <a asp-page="./Details" asp-route-id="@item.FilmId" class="btn btn-sm btn-outline-secondary">View</a>
         <a asp-page="./Delete" asp-route-id="@item.FilmId" class="btn btn-sm btn-outline-danger">Delete</a>
-        <a asp-page="/Rentals/Create" class="btn btn-sm btn-primary" style="margin-left:50px">Rent</a>
-
+        <a asp-page="/Rentals/Create" asp-route-id="@item.FilmId" class="btn btn-sm btn-primary" style="margin-left:50px">Rent</a>
       </td>
     </tr>
     }
