@@ -65,6 +65,27 @@ namespace RetroTapes.Pages.Rentals
                 .Take(PageSize)
                 .ToList();
         }
+
+        public async Task<IActionResult> OnPostToggleActiveAsync(int id)
+        {
+            var rental = await _rentalRepository.GetAsync(id);
+
+            if (rental == null)
+            {
+                return NotFound();
+            }
+
+            rental.ReturnDate = rental.ReturnDate == null ? DateTime.UtcNow : null;
+            await _rentalRepository.UpdateAsync(rental);
+            await _rentalRepository.SaveChangesAsync();
+
+            return RedirectToPage(new
+            {
+                Search,
+                ShowActiveRentals,
+                pageIndex = PageIndex
+            });
+        }
     }
 
 }
