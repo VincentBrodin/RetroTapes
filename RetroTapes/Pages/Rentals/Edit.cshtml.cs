@@ -9,13 +9,13 @@ namespace RetroTapes.Pages.Rentals
 {
     public class EditModel : PageModel
     {
-        private readonly SakilaContext _context;
         private readonly IRepository<Rental> _rentalRepo;
+        private readonly SakilaContext _context;
 
-        public EditModel(IRepository<Rental> rentalRepo, SakilaContext context)
+        public EditModel(IRepository<Rental> rentalRepo, SakilaContext sakilaContext)
         {
             _rentalRepo = rentalRepo;
-            _context = context;
+            _context = sakilaContext;
         }
 
         [BindProperty]
@@ -32,19 +32,20 @@ namespace RetroTapes.Pages.Rentals
             if (rental == null) return NotFound();
 
             Rental = rental;
+            Rental.ReturnDate ??= DateTime.UtcNow;
             await LoadSelectListsAsync();
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await ValidateAsync();
+            // await ValidateAsync();
 
-            if (!ModelState.IsValid)
-            {
-                await LoadSelectListsAsync();
-                return Page();
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     await LoadSelectListsAsync();
+            //     return Page();
+            // }
 
             try
             {

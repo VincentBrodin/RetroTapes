@@ -26,7 +26,6 @@ builder.Services.AddScoped<IRepository<Inventory>, GenericRepository<Inventory>>
 builder.Services.AddScoped<IRepository<Language>, GenericRepository<Language>>();
 builder.Services.AddScoped<IRepository<Payment>, GenericRepository<Payment>>();
 builder.Services.AddScoped<IRepository<Rental>, RentalRepository>();
-builder.Services.AddScoped<RentalRepository>();
 builder.Services.AddScoped<IRepository<SalesByFilmCategory>, GenericRepository<SalesByFilmCategory>>();
 builder.Services.AddScoped<IRepository<SalesByStore>, GenericRepository<SalesByStore>>();
 builder.Services.AddScoped<IRepository<Staff>, GenericRepository<Staff>>();
