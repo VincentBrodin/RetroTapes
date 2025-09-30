@@ -31,7 +31,7 @@
 
                 <div class="col-md-6">
                     <label asp-for="Rental.StaffId" class="form-label">Staff</label>
-                    <select asp-for="Rental.StaffId" class="form-select staff" asp-items="Model.Staffs" disabled>
+                    <select asp-for="Rental.StaffId" class="form-select staff" asp-items="Model.Staffs">
                         <option value="">-- select staff --</option>
                     </select>
                     <span asp-validation-for="Rental.StaffId" class="text-danger"></span>
@@ -43,11 +43,11 @@
                     <span asp-validation-for="Rental.RentalDate" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-6">
-                    <label asp-for="Rental.ReturnDate" class="form-label">Returned At (UTC)</label>
-                    <input asp-for="Rental.ReturnDate" class="form-control" />
-                    <span asp-validation-for="Rental.ReturnDate" class="text-danger"></span>
-                </div>
+                <!-- <div class="col-md-6"> -->
+                    <!-- <label asp-for="Rental.ReturnDate" class="form-label">Returned At (UTC)</label> -->
+                    <!-- <input asp-for="Rental.ReturnDate" class="form-control" /> -->
+                    <!-- <span asp-validation-for="Rental.ReturnDate" class="text-danger"></span> -->
+                <!-- </div> -->
 
             </div>
         </div>

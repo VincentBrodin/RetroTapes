@@ -30,19 +30,20 @@ namespace RetroTapes.Pages.Rentals
             if (rental == null) return NotFound();
 
             Rental = rental;
+            Rental.ReturnDate ??= DateTime.UtcNow;
             await LoadSelectListsAsync();
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await ValidateAsync();
+            // await ValidateAsync();
 
-            if (!ModelState.IsValid)
-            {
-                await LoadSelectListsAsync();
-                return Page();
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     await LoadSelectListsAsync();
+            //     return Page();
+            // }
 
             try
             {
