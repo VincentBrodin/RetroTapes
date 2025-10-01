@@ -1,22 +1,121 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+
+    /* Dark Mode Core */
+    body.dark-mode {
+        background-color: #121212;
+        color: #e6e6e6;
+    }
+
+        /* Navbar */
+        body.dark-mode .navbar {
+            background-color: #1a1a1a !important;
+            border-color: #2a2a2a !important;
+        }
+
+            body.dark-mode .navbar .navbar-brand,
+            body.dark-mode .navbar .nav-link {
+                color: #e6e6e6 !important;
+            }
+
+                body.dark-mode .navbar .nav-link:hover {
+                    background-color: #242424;
+                }
+
+        /* Neutralize hard-coded light utilities only in dark mode */
+        body.dark-mode .bg-white,
+        body.dark-mode .bg-light {
+            background-color: #181818 !important;
+        }
+
+        body.dark-mode .text-dark {
+            color: #e6e6e6 !important;
+        }
+
+        /* Table / Card / Borders */
+        body.dark-mode .table,
+        body.dark-mode .card,
+        body.dark-mode .border,
+        body.dark-mode .list-group-item {
+            background-color: #181818;
+            color: #e6e6e6;
+            border-color: #2a2a2a !important;
+        }
+
+            body.dark-mode .table thead th {
+                color: #f0f0f0;
+            }
+
+        /* Forms */
+        body.dark-mode .form-control,
+        body.dark-mode .form-select {
+            background: #1c1c1c;
+            color: #f0f0f0;
+            border-color: #2a2a2a;
+        }
+
+            body.dark-mode .form-control:focus,
+            body.dark-mode .form-select:focus {
+                background: #202020;
+                color: #fff;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 .25rem rgba(59,130,246,.25);
+            }
+
+        /* Footer */
+        body.dark-mode footer.footer {
+            background: #181818;
+            color: #bdbdbd;
+            border-top-color: #2a2a2a;
+        }
+
+        /* Badge example (your “Active”) */
+        body.dark-mode .badge.bg-warning {
+            background: #caa300 !important;
+            color: #111 !important;
+        }
+
+        /* Make the page panel dark */
+        body.dark-mode main section {
+            background-color: #181818; /* panel bg */
+            color: #e6e6e6; /* default text */
+            border-color: #2a2a2a; /* if your section has a border */
+        }
+
+        /* Ensure the “Rentals” heading flips, too */
+        body.dark-mode h1,
+        body.dark-mode .h1,
+        body.dark-mode h2,
+        body.dark-mode .h2 {
+            color: #f1f1f1;
+        }
+
+        /* Safety nets for any hard-coded light utilities used on the panel */
+        body.dark-mode main section.bg-white {
+            background-color: #181818 !important;
+        }
+
+        body.dark-mode main section.text-dark {
+            color: #e6e6e6 !important;
+        }
